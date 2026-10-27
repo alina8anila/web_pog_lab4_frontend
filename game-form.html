@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма гри - Boardgame Site</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/game-form.js"></script>
+</head>
+<body>
+    <header></header>
+    <main>
+        <h1 id="formTitle">Додати гру</h1>
+        <div class="form-container">
+            <form id="gameForm" novalidate>
+                <div class="form-group">
+                    <label for="title">Назва *</label>
+                    <input type="text" id="title" name="title">
+                    <div class="error" id="error-title"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Опис *</label>
+                    <textarea id="description" name="description"></textarea>
+                    <div class="error" id="error-description"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rental_price_per_day">Ціна оренди за день *</label>
+                    <input type="number" id="rental_price_per_day" name="rental_price_per_day" step="0.01" min="0">
+                    <div class="error" id="error-rental_price_per_day"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="play_time_mins">Час гри (хв) *</label>
+                    <input type="number" id="play_time_mins" name="play_time_mins" min="0">
+                    <div class="error" id="error-play_time_mins"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="min_players">Мін. гравців *</label>
+                    <input type="number" id="min_players" name="min_players" min="1">
+                    <div class="error" id="error-min_players"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="max_players">Макс. гравців *</label>
+                    <input type="number" id="max_players" name="max_players" min="1">
+                    <div class="error" id="error-max_players"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="complexity">Складність *</label>
+                    <select id="complexity" name="complexity">
+                        <option value="">Оберіть...</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                    <div class="error" id="error-complexity"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hub_id">Хаб *</label>
+                    <select id="hub_id" name="hub_id">
+                        <option value="">Оберіть...</option>
+                    </select>
+                    <div class="error" id="error-hub_id"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Жанри *</label>
+                    <div id="genreCheckboxes" class="checkbox-group"></div>
+                    <div class="error" id="error-genre_ids"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                    <a href="index.html" class="btn btn-secondary">Скасувати</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
