@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог ігор - Boardgame Site</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/catalog.js"></script>
+</head>
+<body>
+    <header></header>
+    <main>
+        <h1>Каталог ігор</h1>
+        <p class="intro">Оберіть гру для оренди або додайте нову до каталогу.</p>
+        
+        <section class="filters">
+            <div class="filter-group">
+                <label for="search">Пошук</label>
+                <input type="text" id="search" placeholder="Назва гри...">
+            </div>
+            
+            <div class="filter-group">
+                <label for="hub_id">Хаб</label>
+                <select id="hub_id">
+                    <option value="">Всі хаби</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="genre_id">Жанр</label>
+                <select id="genre_id">
+                    <option value="">Всі жанри</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="min_players">Кількість гравців</label>
+                <input type="number" id="min_players" min="1" placeholder="Наприклад, 4">
+            </div>
+            
+            <div class="filter-group">
+                <label for="complexity">Складність</label>
+                <select id="complexity">
+                    <option value="">Будь-яка</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="sort">Сортування</label>
+                <select id="sort">
+                    <option value="">За замовчуванням</option>
+                    <option value="price_asc">Ціна: за зростанням</option>
+                    <option value="price_desc">Ціна: за спаданням</option>
+                    <option value="rating_desc">Рейтинг: за спаданням</option>
+                    <option value="rating_asc">Рейтинг: за зростанням</option>
+                    <option value="popularity">Популярність</option>
+                </select>
+            </div>
+            
+            <div class="filter-actions">
+                <button id="applyFilters" class="btn btn-primary">Застосувати</button>
+                <button id="resetFilters" class="btn btn-secondary">Скинути</button>
+            </div>
+        </section>
+        
+        <div class="actions">
+            <a href="game-form.html" class="btn btn-primary">Додати гру</a>
+        </div>
+        
+        <section id="gamesContainer" class="games-grid"></section>
+    </main>
+</body>
+</html>
