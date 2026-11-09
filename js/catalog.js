@@ -4,7 +4,7 @@ $(document).ready(function() {
     loadGames();
     
     // Показувати "Додати гру" лише адміну
-    fetchCurrentUser().then(function(user) {
+    fetchCurrentUser(false, true).then(function(user) {
         if (user && user.role === 'admin') {
             $('.actions').show();
         } else {

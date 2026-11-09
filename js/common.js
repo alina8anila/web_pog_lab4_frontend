@@ -4,6 +4,7 @@ var AUTH_ACCESS_KEY = "bg_access";
 var AUTH_REFRESH_KEY = "bg_refresh";
 var AUTH_USER_KEY = "bg_user";
 var refreshPromise = null;
+var isRedirectingToLogin = false;
 
 function getAccessToken() {
     return localStorage.getItem(AUTH_ACCESS_KEY);
@@ -93,6 +94,10 @@ function refreshAccessToken() {
 }
 
 function redirectToLogin() {
+    if (isRedirectingToLogin) {
+        return;
+    }
+    isRedirectingToLogin = true;
     var next = window.location.pathname.split("/").pop() + window.location.search;
     if (!next || next === "login.html" || next === "register.html") {
         window.location.href = "login.html";
@@ -106,13 +111,16 @@ function handleAuthFailure() {
     redirectToLogin();
 }
 
-function apiRequest(options, retryOn401) {
+function apiRequest(options, retryOn401, silent) {
     var opts = $.extend(true, {}, options);
     opts.url = API_BASE + opts.path;
     delete opts.path;
     opts.headers = buildAuthHeaders(opts.headers);
     if (retryOn401 === undefined) {
         retryOn401 = true;
+    }
+    if (silent === undefined) {
+        silent = false;
     }
 
     return $.ajax(opts).catch(function (xhr) {
@@ -124,7 +132,11 @@ function apiRequest(options, retryOn401) {
                 retryOpts.headers = buildAuthHeaders(retryOpts.headers);
                 return $.ajax(retryOpts);
             }).catch(function (refreshXhr) {
-                handleAuthFailure();
+                if (!silent) {
+                    handleAuthFailure();
+                } else {
+                    clearAuth();
+                }
                 return $.Deferred().reject(refreshXhr || xhr).promise();
             });
         }
@@ -168,7 +180,10 @@ function apiAuthSend(method, path, data) {
     return apiSend(method, path, data);
 }
 
-function fetchCurrentUser(force) {
+function fetchCurrentUser(force, silent) {
+    if (silent === undefined) {
+        silent = false;
+    }
     if (!force) {
         var cached = getCurrentUserCached();
         if (cached && getAccessToken()) {
@@ -182,7 +197,7 @@ function fetchCurrentUser(force) {
         path: "/users/me",
         method: "GET",
         dataType: "json"
-    }).then(function (user) {
+    }, true, silent).then(function (user) {
         setCurrentUserCached(user);
         return user;
     });
@@ -359,7 +374,7 @@ function renderHeader() {
     refreshHeader();
     
     if (isAuthenticated()) {
-        fetchCurrentUser().then(function (user) {
+        fetchCurrentUser(false, true).then(function (user) {
             refreshHeader();
         }).catch(function () {});
     }

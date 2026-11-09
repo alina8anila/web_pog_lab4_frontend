@@ -78,7 +78,7 @@ function loadGame() {
         });
         
         // Показувати кнопки редагування/видалення лише адміну
-        fetchCurrentUser().then(function(user) {
+        fetchCurrentUser(false, true).then(function(user) {
             if (user && user.role === 'admin') {
                 $('#editBtn').show();
                 $('#deleteBtn').show();
