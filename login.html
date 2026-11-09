@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід - Boardgame Site</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
+</head>
+<body>
+    <header></header>
+    <main>
+        <h1>Вхід</h1>
+        <div class="form-container">
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="username">Логін *</label>
+                    <input type="text" id="username" name="username">
+                    <div class="error" id="error-username"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Пароль *</label>
+                    <input type="password" id="password" name="password">
+                    <div class="error" id="error-password"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Увійти</button>
+                    <a href="register.html" class="btn btn-secondary">Реєстрація</a>
+                </div>
+                
+                <div class="error" id="formError" style="margin-top: 1rem;"></div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
