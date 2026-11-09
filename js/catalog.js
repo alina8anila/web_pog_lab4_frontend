@@ -3,6 +3,17 @@ $(document).ready(function() {
     loadFilters();
     loadGames();
     
+    // Показувати "Додати гру" лише адміну
+    fetchCurrentUser().then(function(user) {
+        if (user && user.role === 'admin') {
+            $('.actions').show();
+        } else {
+            $('.actions').hide();
+        }
+    }).catch(function() {
+        $('.actions').hide();
+    });
+    
     $('#applyFilters').on('click', function() {
         loadGames();
     });

@@ -76,6 +76,20 @@ function loadGame() {
         $('#deleteBtn').on('click', function() {
             deleteGame(gameId);
         });
+        
+        // Показувати кнопки редагування/видалення лише адміну
+        fetchCurrentUser().then(function(user) {
+            if (user && user.role === 'admin') {
+                $('#editBtn').show();
+                $('#deleteBtn').show();
+            } else {
+                $('#editBtn').hide();
+                $('#deleteBtn').hide();
+            }
+        }).catch(function() {
+            $('#editBtn').hide();
+            $('#deleteBtn').hide();
+        });
     }).fail(function(xhr) {
         if (xhr.status === 404) {
             $container.empty().append($('<div class="error">Гру не знайдено</div>'));
@@ -92,13 +106,12 @@ function deleteGame(gameId) {
         return;
     }
     
-    $.ajax({
-        url: API_BASE + '/games/' + gameId,
-        method: 'DELETE',
-        success: function() {
-            window.location.href = 'index.html';
-        },
-        error: function(xhr) {
+    apiSend('DELETE', '/games/' + gameId).done(function() {
+        window.location.href = 'index.html';
+    }).fail(function(xhr) {
+        if (xhr.status === 401) {
+            handleAuthFailure();
+        } else {
             alert(getApiErrorMessage(xhr));
         }
     });
