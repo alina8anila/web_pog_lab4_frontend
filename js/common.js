@@ -310,18 +310,66 @@ function getQueryParam(name) {
     return urlParams.get(name);
 }
 
+function refreshHeader() {
+    var $header = $('header');
+    if ($header.length === 0) {
+        return;
+    }
+    
+    $header.empty();
+    var $nav = $('<nav></nav>');
+    
+    var $main = $('<div class="nav-main"></div>');
+    $main.append($('<a href="index.html">Ігри</a>'));
+    $main.append($('<a href="genres.html">Жанри</a>'));
+    $main.append($('<a href="hubs.html">Хаби</a>'));
+    $main.append($('<a href="profile.html">Профіль</a>'));
+    $nav.append($main);
+    
+    var $auth = $('<div class="nav-auth"></div>');
+    
+    if (isAuthenticated()) {
+        var user = getCurrentUserCached();
+        var displayName = user ? (user.first_name || user.username) : '';
+        if (displayName) {
+            $auth.append($('<span class="user-name"></span>').text(displayName));
+        }
+        var $logoutBtn = $('<button class="auth-btn auth-btn-danger">Вийти</button>');
+        $logoutBtn.on('click', function () {
+            logout();
+        });
+        $auth.append($logoutBtn);
+    } else {
+        var $loginLink = $('<a href="login.html" class="auth-btn auth-btn-primary">Увійти</a>');
+        $auth.append($loginLink);
+        var $registerLink = $('<a href="register.html" class="auth-btn">Реєстрація</a>');
+        $auth.append($registerLink);
+    }
+    
+    $nav.append($auth);
+    $header.append($nav);
+}
+
 function renderHeader() {
     var $header = $('header');
     if ($header.length === 0) {
         $header = $('<header></header>');
         $('body').prepend($header);
     }
-    $header.empty();
+    refreshHeader();
     
-    var $nav = $('<nav></nav>');
-    $nav.append($('<a href="index.html">Ігри</a>'));
-    $nav.append($('<a href="genres.html">Жанри</a>'));
-    $nav.append($('<a href="hubs.html">Хаби</a>'));
-    
-    $header.append($nav);
+    if (isAuthenticated()) {
+        fetchCurrentUser().then(function (user) {
+            refreshHeader();
+        }).catch(function () {});
+    }
+}
+
+function logout() {
+    clearAuth();
+    refreshHeader();
+    var page = window.location.pathname.split('/').pop();
+    if (page === 'profile.html' || page === 'game-form.html') {
+        window.location.href = 'index.html';
+    }
 }
