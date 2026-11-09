@@ -1,6 +1,11 @@
 $(document).ready(function() {
     renderHeader();
     
+    // Повідомлення після успішної реєстрації
+    if (getQueryParam('registered') === '1') {
+        $('#formSuccess').text('Реєстрація успішна! Тепер увійдіть у свій акаунт.').show();
+    }
+    
     // Guard: авторизований користувач не може відкрити сторінку логіну
     if (isAuthenticated()) {
         var next = getQueryParam('next');
