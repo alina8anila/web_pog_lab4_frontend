@@ -24,7 +24,9 @@ nav {
     margin: 0 auto;
     padding: 0 1rem;
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 nav a {
@@ -37,6 +39,58 @@ nav a {
 
 nav a:hover {
     opacity: 0.8;
+}
+
+.nav-main {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.nav-auth {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.nav-auth .user-name {
+    color: #ecf0f1;
+    font-weight: 500;
+}
+
+.nav-auth .auth-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+.nav-auth .auth-btn:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.nav-auth .auth-btn-primary {
+    background-color: #3498db;
+}
+
+.nav-auth .auth-btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.nav-auth .auth-btn-danger {
+    background-color: #e74c3c;
+}
+
+.nav-auth .auth-btn-danger:hover {
+    background-color: #c0392b;
 }
 
 main {

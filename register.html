@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація - Boardgame Site</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/register.js"></script>
+</head>
+<body>
+    <header></header>
+    <main>
+        <h1>Реєстрація</h1>
+        <div class="form-container">
+            <form id="registerForm" novalidate>
+                <div class="form-group">
+                    <label for="username">Логін *</label>
+                    <input type="text" id="username" name="username" maxlength="150">
+                    <div class="error" id="error-username"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="first_name">Ім'я</label>
+                    <input type="text" id="first_name" name="first_name" maxlength="150">
+                    <div class="error" id="error-first_name"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="last_name">Прізвище</label>
+                    <input type="text" id="last_name" name="last_name" maxlength="150">
+                    <div class="error" id="error-last_name"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" maxlength="254">
+                    <div class="error" id="error-email"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Пароль *</label>
+                    <input type="password" id="password" name="password" maxlength="128">
+                    <div class="error" id="error-password"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password_confirmation">Підтвердження пароля *</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation">
+                    <div class="error" id="error-password_confirmation"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Зареєструватися</button>
+                    <a href="login.html" class="btn btn-secondary">Вхід</a>
+                </div>
+                
+                <div class="error" id="formError" style="margin-top: 1rem;"></div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,5 +1,20 @@
 $(document).ready(function() {
     renderHeader();
+    
+    // Guard: лише адмін може створювати/редагувати ігри
+    fetchCurrentUser().then(function(user) {
+        if (!user || user.role !== 'admin') {
+            $('main').html('<h1>Доступ заборонено</h1><div class="error">Ця сторінка доступна лише адміністраторам.</div><div class="form-actions"><a href="index.html" class="btn btn-secondary">Назад до каталогу</a></div>');
+            return;
+        }
+        
+        initForm();
+    }).catch(function() {
+        redirectToLogin();
+    });
+});
+
+function initForm() {
     var gameId = getQueryParam('id');
     
     if (gameId) {
@@ -16,7 +31,7 @@ $(document).ready(function() {
         e.preventDefault();
         saveGame(gameId);
     });
-});
+}
 
 function loadHubs() {
     apiGet('/hubs').done(function(hubs) {
@@ -62,6 +77,8 @@ function loadGameData(gameId) {
     }).fail(function(xhr) {
         if (xhr.status === 404) {
             $('main').html('<h1>Редагувати гру</h1><div class="error">Гру не знайдено</div><div class="form-actions"><a href="index.html" class="btn btn-secondary">Назад до каталогу</a></div>');
+        } else if (xhr.status === 401) {
+            handleAuthFailure();
         } else {
             alert(getApiErrorMessage(xhr));
         }
@@ -91,16 +108,12 @@ function saveGame(gameId) {
     
     if (gameId) {
         // Редагування
-        $.ajax({
-            url: API_BASE + '/games/' + gameId,
-            method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function() {
-                window.location.href = 'game.html?id=' + gameId;
-            },
-            error: function(xhr) {
+        apiSend('PUT', '/games/' + gameId, data).done(function() {
+            window.location.href = 'game.html?id=' + gameId;
+        }).fail(function(xhr) {
+            if (xhr.status === 401) {
+                handleAuthFailure();
+            } else {
                 handleFormErrors(xhr);
             }
         });
@@ -113,12 +126,20 @@ function saveGame(gameId) {
                 window.location.href = 'index.html';
             }
         }).fail(function(xhr) {
-            handleFormErrors(xhr);
+            if (xhr.status === 401) {
+                handleAuthFailure();
+            } else {
+                handleFormErrors(xhr);
+            }
         });
     }
 }
 
 function handleFormErrors(xhr) {
+    if (xhr.status === 403) {
+        alert(getApiErrorMessage(xhr));
+        return;
+    }
     var fieldErrors = getFieldErrors(xhr);
     $.each(fieldErrors, function(field, messages) {
         var errorDiv = $('#error-' + field);
